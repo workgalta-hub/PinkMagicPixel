@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Portofolio pribadi yang menampilkan keterampilan, proyek, dan kontak."
+    />
+    <title>Portofolio Saya</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <nav class="navbar">
+        <a href="#home" class="logo">PinkMagicPixel</a>
+        <button class="menu-toggle" aria-label="Buka menu" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <ul class="nav-links">
+          <li><a href="#about">Tentang</a></li>
+          <li><a href="#projects">Proyek</a></li>
+          <li><a href="#contact">Kontak</a></li>
+        </ul>
+      </nav>
+
+      <div class="hero-content" id="home">
+        <div>
+          <p class="eyebrow">Halo, saya</p>
+          <h1>Nama Anda</h1>
+          <h2>Web Developer & Desainer</h2>
+          <p class="hero-text">
+            Saya membuat website modern, cepat, dan menarik untuk kebutuhan pribadi,
+            bisnis, atau branding.
+          </p>
+          <div class="hero-actions">
+            <a href="#projects" class="btn btn-primary">Lihat Proyek</a>
+            <a href="#contact" class="btn btn-secondary">Hubungi Saya</a>
+          </div>
+        </div>
+        <div class="hero-card">
+          <div class="avatar">NP</div>
+          <h3>Siap Membantu</h3>
+          <p>Frontend, UI, dan pengalaman pengguna yang nyaman.</p>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section id="about" class="section">
+        <div class="section-heading">
+          <p class="eyebrow">Tentang Saya</p>
+          <h2>Desainer dan pengembang yang fokus pada kualitas.</h2>
+        </div>
+        <div class="about-grid">
+          <p>
+            Saya adalah pengembang web yang suka menciptakan pengalaman digital yang
+            bersih, cepat, dan mudah digunakan. Saya tertarik pada desain visual,
+            pemrograman frontend, dan solusi yang sederhana namun kuat.
+          </p>
+          <ul class="skills-list">
+            <li>HTML & CSS</li>
+            <li>JavaScript</li>
+            <li>UI/UX</li>
+            <li>Responsive Design</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="projects" class="section section-alt">
+        <div class="section-heading">
+          <p class="eyebrow">Proyek</p>
+          <h2>Beberapa karya yang telah saya buat.</h2>
+        </div>
+        <div class="project-grid">
+          <article class="card">
+            <h3>Landing Page</h3>
+            <p>Website promosi yang elegan dan cepat untuk brand atau produk.</p>
+          </article>
+          <article class="card">
+            <h3>Dashboard Sederhana</h3>
+            <p>Antarmuka interaktif untuk menampilkan data secara ringkas.</p>
+          </article>
+          <article class="card">
+            <h3>Portofolio Pribadi</h3>
+            <p>Website modern yang cocok untuk menampilkan karya dan biodata.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="contact" class="section">
+        <div class="section-heading">
+          <p class="eyebrow">Kontak</p>
+          <h2>Siap bekerja sama?</h2>
+        </div>
+        <form class="contact-form" id="contactForm">
+          <input type="text" name="name" placeholder="Nama Anda" required />
+          <input type="email" name="email" placeholder="Email Anda" required />
+          <textarea name="message" rows="5" placeholder="Pesan Anda" required></textarea>
+          <button type="submit" class="btn btn-primary">Kirim Pesan</button>
+        </form>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>&copy; <span id="year"></span> Portofolio Saya. Semua hak dilindungi.</p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
