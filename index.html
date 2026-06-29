@@ -5,107 +5,353 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Portofolio pribadi yang menampilkan keterampilan, proyek, dan kontak."
+      content="Pink Magic Pixel adalah production house dengan gaya sinematik modern untuk marketing, iklan digital, company profile, dan film."
     />
-    <title>Portofolio Saya</title>
+    <title>Pink Magic Pixel | Cinematic Production House</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&family=Manrope:wght@500;600;700;800&family=Material+Symbols+Outlined:wght@100..700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <header class="hero">
-      <nav class="navbar">
-        <a href="#home" class="logo">PinkMagicPixel</a>
-        <button class="menu-toggle" aria-label="Buka menu" aria-expanded="false">
+    <a class="skip-link" href="#content">Skip to content</a>
+
+    <header class="site-header" id="top">
+      <div class="shell header-shell">
+        <a class="brand" href="#top" aria-label="Pink Magic Pixel home">
+          <span class="brand-mark" aria-hidden="true">✦</span>
+          <span class="brand-name">Pink Magic Pixel</span>
+        </a>
+
+        <nav class="site-nav" aria-label="Primary">
+          <a href="#portfolio">Portfolio</a>
+          <a href="#services">Services</a>
+          <a href="#contact">Contact</a>
+          <a class="button button-primary button-small" href="#contact">Start Project</a>
+        </nav>
+
+        <button
+          class="menu-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+          aria-label="Toggle menu"
+        >
           <span></span>
           <span></span>
           <span></span>
         </button>
-        <ul class="nav-links">
-          <li><a href="#about">Tentang</a></li>
-          <li><a href="#projects">Proyek</a></li>
-          <li><a href="#contact">Kontak</a></li>
-        </ul>
-      </nav>
+      </div>
 
-      <div class="hero-content" id="home">
-        <div>
-          <p class="eyebrow">Halo, saya</p>
-          <h1>Nama Anda</h1>
-          <h2>Web Developer & Desainer</h2>
-          <p class="hero-text">
-            Saya membuat website modern, cepat, dan menarik untuk kebutuhan pribadi,
-            bisnis, atau branding.
-          </p>
-          <div class="hero-actions">
-            <a href="#projects" class="btn btn-primary">Lihat Proyek</a>
-            <a href="#contact" class="btn btn-secondary">Hubungi Saya</a>
-          </div>
-        </div>
-        <div class="hero-card">
-          <div class="avatar">NP</div>
-          <h3>Siap Membantu</h3>
-          <p>Frontend, UI, dan pengalaman pengguna yang nyaman.</p>
-        </div>
+      <div class="mobile-menu" id="mobile-menu" hidden>
+        <a href="#portfolio">Portfolio</a>
+        <a href="#services">Services</a>
+        <a href="#contact">Contact</a>
+        <a class="button button-primary" href="#contact">Start Project</a>
       </div>
     </header>
 
-    <main>
-      <section id="about" class="section">
-        <div class="section-heading">
-          <p class="eyebrow">Tentang Saya</p>
-          <h2>Desainer dan pengembang yang fokus pada kualitas.</h2>
-        </div>
-        <div class="about-grid">
-          <p>
-            Saya adalah pengembang web yang suka menciptakan pengalaman digital yang
-            bersih, cepat, dan mudah digunakan. Saya tertarik pada desain visual,
-            pemrograman frontend, dan solusi yang sederhana namun kuat.
-          </p>
-          <ul class="skills-list">
-            <li>HTML & CSS</li>
-            <li>JavaScript</li>
-            <li>UI/UX</li>
-            <li>Responsive Design</li>
-          </ul>
+    <main id="content">
+      <section class="hero section">
+        <div class="shell hero-layout">
+          <div class="hero-copy reveal">
+            <p class="eyebrow">Production House Jakarta &amp; Lampung</p>
+            <h1>Hi! We're <span class="hero-accent">The Magician</span></h1>
+            <p class="hero-intro">
+              Pink Magic Pixel (PMP) adalah production house yang menyulap ide
+              menjadi konten video yang elegan, tajam, dan terasa premium untuk
+              marketing, iklan digital, company profile, dan film sesuai kebutuhan
+              bisnis Anda.
+            </p>
+            <div class="hero-actions">
+              <a class="button button-primary" href="#portfolio">
+                Lihat Portfolio
+                <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+              </a>
+              <a class="button button-secondary" href="#contact">
+                Hubungi Kami
+                <span class="material-symbols-outlined" aria-hidden="true">call</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="hero-visual reveal" aria-hidden="true">
+            <div class="visual-frame">
+              <div class="visual-glow visual-glow-a"></div>
+              <div class="visual-glow visual-glow-b"></div>
+
+              <div class="car-scene">
+                <div class="floor-reflection"></div>
+                <div class="car-body">
+                  <span class="car-window"></span>
+                  <span class="car-window car-window-secondary"></span>
+                  <span class="car-roof"></span>
+                  <span class="car-hood"></span>
+                  <span class="car-headlight left"></span>
+                  <span class="car-headlight right"></span>
+                  <span class="car-wheel left"></span>
+                  <span class="car-wheel right"></span>
+                  <span class="car-accent"></span>
+                </div>
+              </div>
+
+              <span class="play-badge" aria-hidden="true">
+                <span class="material-symbols-outlined" aria-hidden="true">play_arrow</span>
+              </span>
+            </div>
+          </div>
         </div>
       </section>
 
-      <section id="projects" class="section section-alt">
-        <div class="section-heading">
-          <p class="eyebrow">Proyek</p>
-          <h2>Beberapa karya yang telah saya buat.</h2>
-        </div>
-        <div class="project-grid">
-          <article class="card">
-            <h3>Landing Page</h3>
-            <p>Website promosi yang elegan dan cepat untuk brand atau produk.</p>
-          </article>
-          <article class="card">
-            <h3>Dashboard Sederhana</h3>
-            <p>Antarmuka interaktif untuk menampilkan data secara ringkas.</p>
-          </article>
-          <article class="card">
-            <h3>Portofolio Pribadi</h3>
-            <p>Website modern yang cocok untuk menampilkan karya dan biodata.</p>
-          </article>
+      <section class="section section-spaced" id="portfolio">
+        <div class="shell">
+          <div class="section-heading reveal">
+            <div>
+              <p class="eyebrow">Selected Works</p>
+              <h2>Our Magical Works</h2>
+              <p class="section-intro">
+                Transformasi ide mentah menjadi visual yang memukau dan bercerita.
+                Dari komersial hingga film layar lebar, semuanya dirancang untuk
+                meninggalkan kesan.
+              </p>
+            </div>
+            <span class="pill">Showreel 2024</span>
+          </div>
+
+          <div class="portfolio-grid">
+            <article class="portfolio-card portfolio-feature reveal">
+              <div class="portfolio-media car-media">
+                <div class="car-scene compact">
+                  <div class="floor-reflection"></div>
+                  <div class="car-body">
+                    <span class="car-window"></span>
+                    <span class="car-window car-window-secondary"></span>
+                    <span class="car-roof"></span>
+                    <span class="car-hood"></span>
+                    <span class="car-headlight left"></span>
+                    <span class="car-headlight right"></span>
+                    <span class="car-wheel left"></span>
+                    <span class="car-wheel right"></span>
+                    <span class="car-accent"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="portfolio-content">
+                <p class="tag">Featured Project</p>
+                <h3>Midnight Velocity</h3>
+                <p>
+                  Cinematic car commercial dengan pencahayaan kontras tinggi dan
+                  estetika premium.
+                </p>
+              </div>
+            </article>
+
+            <article class="portfolio-card reveal">
+              <div class="portfolio-media phone-media">
+                <div class="phone-frame">
+                  <div class="phone-screen">
+                    <div class="phone-grid"></div>
+                    <div class="phone-stage"></div>
+                    <div class="phone-light"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="portfolio-content">
+                <p class="tag">Company Profile</p>
+                <h3>TechVision Corporate</h3>
+                <p>Profile profesional untuk brand teknologi modern dan kredibel.</p>
+              </div>
+            </article>
+
+            <article class="portfolio-card reveal">
+              <div class="portfolio-media swirl-media">
+                <div class="swirl-orbit"></div>
+                <div class="swirl-core"></div>
+                <div class="swirl-trail"></div>
+              </div>
+              <div class="portfolio-content">
+                <p class="tag">Digital Ad</p>
+                <h3>Lumina Cosmetics</h3>
+                <p>Visual cepat, tajam, dan stylish untuk campaign sosial media.</p>
+              </div>
+            </article>
+
+            <article class="portfolio-card portfolio-cta reveal">
+              <div class="portfolio-cta-inner">
+                <span class="material-symbols-outlined" aria-hidden="true">play_circle</span>
+                <h3>Ready to see more?</h3>
+                <a href="#contact">
+                  View all projects
+                  <span class="material-symbols-outlined" aria-hidden="true">open_in_new</span>
+                </a>
+              </div>
+            </article>
+          </div>
         </div>
       </section>
 
-      <section id="contact" class="section">
-        <div class="section-heading">
-          <p class="eyebrow">Kontak</p>
-          <h2>Siap bekerja sama?</h2>
+      <section class="section section-services" id="services">
+        <div class="shell">
+          <div class="section-heading center reveal">
+            <div>
+              <p class="eyebrow">Capabilities</p>
+              <h2>Magic Services</h2>
+              <p class="section-intro">
+                Kami mengombinasikan keahlian teknis dengan visi artistik untuk
+                memberikan hasil yang terasa rapi, sinematik, dan tepat sasaran.
+              </p>
+            </div>
+          </div>
+
+          <div class="services-grid">
+            <article class="service-card reveal">
+              <div class="service-icon" aria-hidden="true">
+                <span class="material-symbols-outlined">trending_up</span>
+              </div>
+              <h3>Marketing Content</h3>
+              <p>
+                Video strategis untuk meningkatkan brand awareness dan konversi
+                bisnis Anda melalui cerita yang efektif.
+              </p>
+            </article>
+
+            <article class="service-card reveal">
+              <div class="service-icon" aria-hidden="true">
+                <span class="material-symbols-outlined">movie</span>
+              </div>
+              <h3>Iklan Digital</h3>
+              <p>
+                Konten iklan pendek dengan visual yang dirancang khusus untuk
+                performa media sosial.
+              </p>
+            </article>
+
+            <article class="service-card reveal">
+              <div class="service-icon" aria-hidden="true">
+                <span class="material-symbols-outlined">business</span>
+              </div>
+              <h3>Company Profile</h3>
+              <p>
+                Presentasi video profesional yang mengangkat nilai, sejarah, dan
+                kredibilitas instansi Anda.
+              </p>
+            </article>
+
+            <article class="service-card reveal">
+              <div class="service-icon" aria-hidden="true">
+                <span class="material-symbols-outlined">theaters</span>
+              </div>
+              <h3>Film &amp; Produksi</h3>
+              <p>
+                Produksi film pendek maupun panjang dengan kualitas sinematik
+                standar industri perfilman.
+              </p>
+            </article>
+          </div>
         </div>
-        <form class="contact-form" id="contactForm">
-          <input type="text" name="name" placeholder="Nama Anda" required />
-          <input type="email" name="email" placeholder="Email Anda" required />
-          <textarea name="message" rows="5" placeholder="Pesan Anda" required></textarea>
-          <button type="submit" class="btn btn-primary">Kirim Pesan</button>
-        </form>
+      </section>
+
+      <section class="section section-contact" id="contact">
+        <div class="shell">
+          <div class="contact-panel reveal">
+            <div class="contact-copy">
+              <p class="eyebrow">Get in Touch</p>
+              <h2>Mulai Keajaiban Anda Sekarang</h2>
+              <p class="section-intro contact-intro">
+                Punya ide yang ingin diwujudkan? Konsultasikan kebutuhan video
+                Anda secara gratis dengan tim ahli kami.
+              </p>
+
+              <div class="contact-actions">
+                <a class="button button-ghost" href="https://wa.me/6281905016351" target="_blank" rel="noreferrer">
+                  <span class="material-symbols-outlined" aria-hidden="true">call</span>
+                  WhatsApp
+                </a>
+                <a class="button button-ghost" href="https://www.instagram.com/pinkmagicpixel/" target="_blank" rel="noreferrer">
+                  <span class="material-symbols-outlined" aria-hidden="true">photo_camera</span>
+                  Instagram
+                </a>
+              </div>
+            </div>
+
+            <div class="contact-list">
+              <article class="contact-item">
+                <span class="contact-icon" aria-hidden="true">
+                  <span class="material-symbols-outlined">location_on</span>
+                </span>
+                <div>
+                  <h3>Jakarta Office</h3>
+                  <p>Central Jakarta Business District<br />Jakarta, Indonesia</p>
+                </div>
+              </article>
+
+              <article class="contact-item">
+                <span class="contact-icon" aria-hidden="true">
+                  <span class="material-symbols-outlined">location_on</span>
+                </span>
+                <div>
+                  <h3>Lampung Creative Hub</h3>
+                  <p>Bandar Lampung Creative Studio<br />Lampung, Indonesia</p>
+                </div>
+              </article>
+
+              <article class="contact-item">
+                <span class="contact-icon" aria-hidden="true">
+                  <span class="material-symbols-outlined">mail</span>
+                </span>
+                <div>
+                  <h3>Email Inquiry</h3>
+                  <p>hello@pinkmagicpixel.com</p>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
       </section>
     </main>
 
-    <footer class="footer">
-      <p>&copy; <span id="year"></span> Portofolio Saya. Semua hak dilindungi.</p>
+    <footer class="site-footer">
+      <div class="shell footer-shell">
+        <div class="footer-brand">
+          <a class="brand" href="#top">
+            <span class="brand-mark" aria-hidden="true">✦</span>
+            <span class="brand-name">Pink Magic Pixel</span>
+          </a>
+          <p>
+            Crafting visual magic since 2019. Partner produksi dan storytelling
+            digital untuk brand yang ingin tampil menonjol.
+          </p>
+        </div>
+
+        <div class="footer-links">
+          <div>
+            <h3>Explore</h3>
+            <a href="#portfolio">Portfolio</a>
+            <a href="#services">Services</a>
+            <a href="#contact">Contact</a>
+          </div>
+          <div>
+            <h3>Connect</h3>
+            <a href="https://www.instagram.com/pinkmagicpixel/" target="_blank" rel="noreferrer">Instagram</a>
+            <a href="https://wa.me/6281905016351" target="_blank" rel="noreferrer">WhatsApp</a>
+          </div>
+          <div>
+            <h3>Offices</h3>
+            <p>Jakarta • Lampung</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="shell footer-meta">
+        <p>&copy; <span id="year"></span> Pink Magic Pixel. Crafted with magic.</p>
+        <div class="footer-legal">
+          <a href="#top">Privacy Policy</a>
+          <a href="#top">Terms</a>
+        </div>
+      </div>
     </footer>
 
     <script src="script.js"></script>
