@@ -159,6 +159,39 @@ const toYouTubeEmbedUrl = (videoId, autoplay = false) => {
   return `https://www.youtube-nocookie.com/embed/${videoId}?${params.toString()}`;
 };
 
+const loadYouTubeIframeApi = (() => {
+  let apiPromise = null;
+
+  return () => {
+    if (window.YT?.Player) {
+      return Promise.resolve(window.YT);
+    }
+
+    if (apiPromise) {
+      return apiPromise;
+    }
+
+    apiPromise = new Promise((resolve) => {
+      const previousReady = window.onYouTubeIframeAPIReady;
+
+      window.onYouTubeIframeAPIReady = () => {
+        if (typeof previousReady === 'function') {
+          previousReady();
+        }
+
+        resolve(window.YT);
+      };
+
+      const script = document.createElement('script');
+      script.src = 'https://www.youtube.com/iframe_api';
+      script.async = true;
+      document.head.appendChild(script);
+    });
+
+    return apiPromise;
+  };
+})();
+
 if (showreelGallery) {
   const prevButton = showreelGallery.querySelector('[data-carousel-prev]');
   const nextButton = showreelGallery.querySelector('[data-carousel-next]');
@@ -176,6 +209,7 @@ if (showreelGallery) {
   let activePage = 0;
   let activeVideoIndex = 0;
   let activePlayer = null;
+  let modalOpenToken = 0;
   let isPaused = false;
   let lastFocusEl = null;
   let slideTimer = null;
@@ -194,11 +228,17 @@ if (showreelGallery) {
   };
 
   const postPlayerCommand = (command) => {
-    activePlayer?.contentWindow?.postMessage(JSON.stringify({
-      event: 'command',
-      func: command,
-      args: '',
-    }), '*');
+    if (!activePlayer) {
+      return;
+    }
+
+    if (command === 'pauseVideo') {
+      activePlayer.pauseVideo();
+    }
+
+    if (command === 'playVideo') {
+      activePlayer.playVideo();
+    }
   };
 
   const setPauseButtonState = () => {
@@ -212,7 +252,20 @@ if (showreelGallery) {
     modalPause.setAttribute('aria-label', isPaused ? 'Resume video' : 'Pause video');
   };
 
-  const openModal = (index) => {
+  const renderLoadingState = () => {
+    if (!modalFrame) {
+      return;
+    }
+
+    modalFrame.innerHTML = `
+      <div class="showreel-modal-loading">
+        <span class="material-symbols-outlined" aria-hidden="true">smart_display</span>
+        <p>Loading video...</p>
+      </div>
+    `;
+  };
+
+  const openModal = async (index) => {
     const video = portfolioVideos[index];
     const videoId = getYouTubeVideoId(video?.url || '');
 
@@ -220,6 +273,8 @@ if (showreelGallery) {
       return;
     }
 
+    modalOpenToken += 1;
+    const openToken = modalOpenToken;
     activeVideoIndex = index;
     lastFocusEl = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     modal.hidden = false;
@@ -227,21 +282,51 @@ if (showreelGallery) {
     document.body.classList.add('showreel-modal-open');
     modalKicker.textContent = video.kicker;
     modalTitle.textContent = video.title;
-    modalFrame.innerHTML = `
-      <iframe
-        src="${toYouTubeEmbedUrl(videoId, true)}"
-        title="${video.title}"
-        loading="lazy"
-        referrerpolicy="strict-origin-when-cross-origin"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowfullscreen
-      ></iframe>
-    `;
-    activePlayer = modalFrame.querySelector('iframe');
+    renderLoadingState();
+    activePlayer?.destroy?.();
+    activePlayer = null;
     isPaused = false;
     setPauseButtonState();
     stopAutoSlide();
     window.setTimeout(() => modalPause?.focus(), 0);
+
+    const YT = await loadYouTubeIframeApi();
+
+    if (openToken !== modalOpenToken || modal.hidden) {
+      return;
+    }
+
+    modalFrame.innerHTML = '';
+    activePlayer = new YT.Player(modalFrame, {
+      height: '100%',
+      width: '100%',
+      videoId,
+      playerVars: {
+        autoplay: 1,
+        rel: 0,
+        modestbranding: 1,
+        playsinline: 1,
+        origin: window.location.origin,
+      },
+      events: {
+        onReady: (event) => {
+          event.target.playVideo();
+          isPaused = false;
+          setPauseButtonState();
+        },
+        onStateChange: (event) => {
+          if (event.data === YT.PlayerState.PLAYING) {
+            isPaused = false;
+            setPauseButtonState();
+          }
+
+          if (event.data === YT.PlayerState.PAUSED) {
+            isPaused = true;
+            setPauseButtonState();
+          }
+        },
+      },
+    });
   };
 
   const selectPage = (pageIndex) => {
@@ -317,9 +402,9 @@ if (showreelGallery) {
       return;
     }
 
-    if (activePlayer) {
-      postPlayerCommand('pauseVideo');
-    }
+    modalOpenToken += 1;
+    activePlayer?.pauseVideo?.();
+    activePlayer?.destroy?.();
 
     modal.hidden = true;
     modal.setAttribute('aria-hidden', 'true');

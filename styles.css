@@ -924,6 +924,30 @@ textarea {
   border: 0;
 }
 
+.showreel-modal-loading {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  gap: 0.6rem;
+  color: rgba(230, 225, 225, 0.82);
+  background:
+    radial-gradient(circle at 50% 20%, rgba(255, 177, 199, 0.12), transparent 32%),
+    linear-gradient(180deg, rgba(18, 17, 17, 0.94), rgba(13, 12, 13, 0.98));
+}
+
+.showreel-modal-loading .material-symbols-outlined {
+  font-size: 2.2rem;
+  color: var(--pink);
+}
+
+.showreel-modal-loading p {
+  margin: 0;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+}
+
 @keyframes modal-pop {
   from {
     opacity: 0;
