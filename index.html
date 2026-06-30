@@ -14,7 +14,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&family=Manrope:wght@500;600;700;800&family=Material+Symbols+Outlined:wght@100..700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=6" />
+    <link rel="stylesheet" href="styles.css?v=7" />
   </head>
   <body>
     <a class="skip-link" href="#content">Skip to content</a>
@@ -78,29 +78,30 @@
             </div>
           </div>
 
-          <div class="hero-visual reveal" aria-hidden="true">
-            <div class="visual-frame">
+          <div class="hero-visual reveal" aria-label="Showreel overlay carousel">
+            <div class="visual-frame hero-showreel-panel" data-hero-showreel>
               <div class="visual-glow visual-glow-a"></div>
               <div class="visual-glow visual-glow-b"></div>
 
-              <div class="car-scene">
-                <div class="floor-reflection"></div>
-                <div class="car-body">
-                  <span class="car-window"></span>
-                  <span class="car-window car-window-secondary"></span>
-                  <span class="car-roof"></span>
-                  <span class="car-hood"></span>
-                  <span class="car-headlight left"></span>
-                  <span class="car-headlight right"></span>
-                  <span class="car-wheel left"></span>
-                  <span class="car-wheel right"></span>
-                  <span class="car-accent"></span>
+              <div class="hero-showreel">
+                <div class="hero-showreel-head">
+                  <div>
+                    <p class="eyebrow">Showreel Overlay</p>
+                    <p class="hero-showreel-counter" data-hero-counter>1 / 9</p>
+                  </div>
+                  <button class="hero-showreel-play" type="button" data-hero-open aria-label="Perbesar video showreel aktif">
+                    <span class="material-symbols-outlined" aria-hidden="true">play_arrow</span>
+                    <span>Play</span>
+                  </button>
+                </div>
+
+                <div class="hero-showreel-stage" data-hero-stack aria-label="Showreel overlay preview"></div>
+
+                <div class="hero-showreel-footer">
+                  <p class="hero-showreel-caption" data-hero-caption></p>
+                  <div class="hero-showreel-dots" data-hero-dots></div>
                 </div>
               </div>
-
-              <span class="play-badge" aria-hidden="true">
-                <span class="material-symbols-outlined" aria-hidden="true">play_arrow</span>
-              </span>
             </div>
           </div>
         </div>
@@ -512,6 +513,6 @@
       </div>
     </footer>
 
-    <script src="script.js?v=6"></script>
+    <script src="script.js?v=7"></script>
   </body>
 </html>

@@ -6,6 +6,7 @@ const mobileLinks = mobileMenu ? mobileMenu.querySelectorAll('a') : [];
 const yearEl = document.querySelector('#year');
 const revealItems = document.querySelectorAll('.reveal');
 const showreelGallery = document.querySelector('[data-showreel-gallery]');
+const heroShowreel = document.querySelector('[data-hero-showreel]');
 
 if (yearEl) {
   yearEl.textContent = new Date().getFullYear();
@@ -368,6 +369,8 @@ if (showreelGallery) {
     });
   };
 
+  window.showreelOpenModal = openModal;
+
   const selectPage = (pageIndex) => {
     const clampedPage = Math.min(Math.max(pageIndex, 0), totalPages - 1);
     activePage = clampedPage;
@@ -492,6 +495,170 @@ if (showreelGallery) {
   syncCardContent();
   selectPage(0);
   startAutoSlide();
+}
+
+if (heroShowreel) {
+  const stack = heroShowreel.querySelector('[data-hero-stack]');
+  const counter = heroShowreel.querySelector('[data-hero-counter]');
+  const caption = heroShowreel.querySelector('[data-hero-caption]');
+  const dots = heroShowreel.querySelector('[data-hero-dots]');
+  const openButton = heroShowreel.querySelector('[data-hero-open]');
+  let heroIndex = 0;
+  let heroTimer = null;
+
+  const getSlideIndex = (offset) => (heroIndex + offset + portfolioVideos.length) % portfolioVideos.length;
+
+  const createSlide = (video, index, variant) => {
+    const slide = document.createElement('button');
+    slide.type = 'button';
+    slide.className = `hero-showreel-slide hero-showreel-slide-${variant}`;
+    slide.dataset.heroVideoIndex = String(index);
+    slide.setAttribute('aria-label', `Perbesar ${video.title}`);
+
+    const thumb = document.createElement('img');
+    thumb.src = `https://i.ytimg.com/vi/${getYouTubeVideoId(video.url)}/hqdefault.jpg`;
+    thumb.alt = `${video.title} preview`;
+    thumb.loading = 'lazy';
+    slide.appendChild(thumb);
+
+    const overlay = document.createElement('div');
+    overlay.className = 'hero-showreel-overlay';
+
+    const meta = document.createElement('div');
+    meta.className = 'hero-showreel-meta';
+
+    const kicker = document.createElement('p');
+    kicker.className = 'tag';
+    kicker.textContent = video.kicker;
+
+    const title = document.createElement('h3');
+    title.textContent = video.title;
+
+    const description = document.createElement('p');
+    description.textContent = video.description;
+
+    meta.append(kicker, title, description);
+    overlay.appendChild(meta);
+
+    const indexBadge = document.createElement('span');
+    indexBadge.className = 'hero-showreel-index';
+    indexBadge.textContent = String(index + 1).padStart(2, '0');
+    overlay.appendChild(indexBadge);
+
+    slide.appendChild(overlay);
+    return slide;
+  };
+
+  const renderHeroShowreel = () => {
+    if (!stack || !counter || !caption || !dots) {
+      return;
+    }
+
+    const previousIndex = getSlideIndex(-1);
+    const nextIndex = getSlideIndex(1);
+    const current = portfolioVideos[heroIndex];
+
+    stack.replaceChildren(
+      createSlide(portfolioVideos[previousIndex], previousIndex, 'prev'),
+      createSlide(current, heroIndex, 'current'),
+      createSlide(portfolioVideos[nextIndex], nextIndex, 'next'),
+    );
+
+    counter.textContent = `${heroIndex + 1} / ${portfolioVideos.length}`;
+    caption.textContent = current.description;
+
+    dots.replaceChildren(
+      ...portfolioVideos.map((video, index) => {
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'hero-showreel-dot';
+        dot.setAttribute('aria-label', `Lihat ${video.title}`);
+        dot.setAttribute('aria-selected', String(index === heroIndex));
+        dot.dataset.heroDotIndex = String(index);
+        return dot;
+      }),
+    );
+
+    if (openButton) {
+      openButton.setAttribute('aria-label', `Perbesar ${current.title}`);
+      openButton.setAttribute('title', current.title);
+    }
+  };
+
+  const stopHeroAutoSlide = () => {
+    if (heroTimer) {
+      window.clearInterval(heroTimer);
+      heroTimer = null;
+    }
+  };
+
+  const startHeroAutoSlide = () => {
+    if (heroTimer || portfolioVideos.length <= 1) {
+      return;
+    }
+
+    heroTimer = window.setInterval(() => {
+      if (document.hidden || document.body.classList.contains('showreel-modal-open')) {
+        return;
+      }
+
+      heroIndex = (heroIndex + 1) % portfolioVideos.length;
+      renderHeroShowreel();
+    }, 5000);
+  };
+
+  const setHeroIndex = (index) => {
+    heroIndex = (index + portfolioVideos.length) % portfolioVideos.length;
+    renderHeroShowreel();
+  };
+
+  stack.addEventListener('click', (event) => {
+    const slide = event.target.closest('[data-hero-video-index]');
+    if (!slide) {
+      return;
+    }
+
+    const index = Number(slide.getAttribute('data-hero-video-index'));
+    if (Number.isNaN(index)) {
+      return;
+    }
+
+    window.showreelOpenModal?.(index);
+  });
+
+  dots.addEventListener('click', (event) => {
+    const dot = event.target.closest('[data-hero-dot-index]');
+    if (!dot) {
+      return;
+    }
+
+    const index = Number(dot.getAttribute('data-hero-dot-index'));
+    if (Number.isNaN(index)) {
+      return;
+    }
+
+    setHeroIndex(index);
+  });
+
+  openButton?.addEventListener('click', () => {
+    window.showreelOpenModal?.(heroIndex);
+  });
+
+  heroShowreel.addEventListener('mouseenter', stopHeroAutoSlide);
+  heroShowreel.addEventListener('mouseleave', startHeroAutoSlide);
+  heroShowreel.addEventListener('focusin', stopHeroAutoSlide);
+  heroShowreel.addEventListener('focusout', startHeroAutoSlide);
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      stopHeroAutoSlide();
+    } else {
+      startHeroAutoSlide();
+    }
+  });
+
+  renderHeroShowreel();
+  startHeroAutoSlide();
 }
 
 document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
