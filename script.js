@@ -113,6 +113,16 @@ const teamProfiles = [
     name: 'Alvian Husin',
     role: 'Videographer / Photographer / Editor',
     photo: 'assets/team/alvian-husin.jpg',
+    frames: [
+      'assets/team/alvian-husin.jpg',
+      'assets/team/alvian-husin-2.jpg',
+      'assets/team/alvian-husin-3.jpg',
+      'assets/team/alvian-husin-4.jpg',
+      'assets/team/alvian-husin-5.jpg',
+      'assets/team/alvian-husin-6.jpg',
+      'assets/team/alvian-husin-7.jpg',
+      'assets/team/alvian-husin-8.jpg',
+    ],
     bio: 'Lebih dari satu dekade di industri kreatif. Memulai fotografi dan editing gambar sejak 2014, lalu mengembangkan videografi dan editing video sejak 2017 untuk menangani proyek visual berskala besar.',
     highlights: ['Video Profile Lampung Barat (2023)', 'Subroto Awards 2025 Pertamina Geotermal Energy', 'The Guardian "Lampung Dive Club Mini Series" (2020)'],
   },
@@ -120,6 +130,12 @@ const teamProfiles = [
     name: 'Arso Wibowo',
     role: 'Cinematographer / Director of Photography',
     photo: 'assets/team/arso-wibowo.jpg',
+    frames: [
+      'assets/team/arso-wibowo.jpg',
+      'assets/team/arso-wibowo-2.jpg',
+      'assets/team/arso-wibowo-3.jpg',
+      'assets/team/arso-wibowo-4.jpg',
+    ],
     bio: 'Sejak 2018 merayakan setiap momen di dunia sinematografi. Fokus pada pengambilan gambar dan editing untuk menerjemahkan ide kreatif menjadi visual yang artistik dan efektif.',
     highlights: ['BPKH Company Profile (2024)', 'Beeme Short Movie (2023)', 'Artotel Indonesia "Like a Local" Campaign (2026)'],
   },
@@ -127,6 +143,14 @@ const teamProfiles = [
     name: 'Eriko Ramadhan',
     role: 'Director',
     photo: 'assets/team/eriko-ramadhan.jpg',
+    frames: [
+      'assets/team/eriko-ramadhan.jpg',
+      'assets/team/eriko-ramadhan-2.jpg',
+      'assets/team/eriko-ramadhan-3.jpg',
+      'assets/team/eriko-ramadhan-4.jpg',
+      'assets/team/eriko-ramadhan-5.jpg',
+      'assets/team/eriko-ramadhan-6.jpg',
+    ],
     bio: 'Berfokus pada penyutradaraan dan penulisan karya audiovisual untuk company profile, campaign commercials, film, dan music video dengan pengalaman lebih dari 7 tahun.',
     highlights: ['Nescafe x Raisa Digital Ads - Assistant to Director (2026)', 'Batas Senja "Ketakutanku" Music Video (2026)', 'Poltekkes Tanjung Karang Profile Video (2023)'],
   },
@@ -134,6 +158,12 @@ const teamProfiles = [
     name: 'Fariz Gunsan',
     role: 'Production Team / Camera Department / Photographer',
     photo: 'assets/team/fariz-gunsan.jpg',
+    frames: [
+      'assets/team/fariz-gunsan.jpg',
+      'assets/team/fariz-gunsan-2.jpg',
+      'assets/team/fariz-gunsan-3.jpg',
+      'assets/team/fariz-gunsan-4.jpg',
+    ],
     bio: 'Production team, camera department team, dan photographer dengan 7 tahun pengalaman di industri kreatif, berfokus pada production, photography, camera assisting, lighting, dan visual storytelling.',
     highlights: ['Poltekkes Kemenkes Tanjung Karang Company Profile (2024)', 'Wahaha Seafood Company Profile (2025)', 'Tubaba Art Festival Documentation (2024)'],
   },
@@ -141,6 +171,12 @@ const teamProfiles = [
     name: 'Ismi Anindita',
     role: 'Creative Producer',
     photo: 'assets/team/ismi-anindita.jpg',
+    frames: [
+      'assets/team/ismi-anindita.jpg',
+      'assets/team/ismi-anindita-2.jpg',
+      'assets/team/ismi-anindita-3.jpg',
+      'assets/team/ismi-anindita-4.jpg',
+    ],
     bio: 'Produser kreatif dengan pengalaman di industri film dan production house. Terbiasa mengelola workflow produksi end-to-end dari perencanaan, budgeting, scheduling, hingga quality control.',
     highlights: ['Batas Senja "Ketakutanku" Music Video (2026)', 'Wahaha Seafood Profile Video (2025)', 'Seruit Buk Lin Profile Video (2025)'],
   },
@@ -148,6 +184,12 @@ const teamProfiles = [
     name: 'Rachmat SB',
     role: 'FPV Pilot / Drone Aerial Pilot',
     photo: 'assets/team/rachmat-sb.jpg',
+    frames: [
+      'assets/team/rachmat-sb.jpg',
+      'assets/team/rachmat-sb-2.jpg',
+      'assets/team/rachmat-sb-3.jpg',
+      'assets/team/rachmat-sb-4.jpg',
+    ],
     bio: 'Pilot FPV dan aerial drone dengan lebih dari 5 tahun pengalaman. Berfokus pada estetika dan penyampaian pesan visual melalui sudut pandang yang luas.',
     highlights: ['PTBA Lampung CSR Video (2026)', 'Indonesian Drift Series Competition (2026)', 'HK Tol Bakter Company Profile (2024)'],
   },
@@ -155,6 +197,12 @@ const teamProfiles = [
     name: 'Raden Tri Buana',
     role: 'Videographer / Photographer / Editor / Motion Designer',
     photo: 'assets/team/raden-tri-buana.jpg',
+    frames: [
+      'assets/team/raden-tri-buana.jpg',
+      'assets/team/raden-tri-buana-2.jpg',
+      'assets/team/raden-tri-buana-3.jpg',
+      'assets/team/raden-tri-buana-4.jpg',
+    ],
     bio: 'Sejak 2019 menekuni videography, editing video, dan motion design. Pada 2022 menambah skill photography dan terus mengembangkan disiplin kerja untuk berbagai proyek visual.',
     highlights: ['Profile Putri Indonesia Lampung (2026)', 'Tol Bakter Hutama Karya Company Profile (2024)', 'Video Content MarketU (Agency USA) (2026)'],
   },
@@ -162,6 +210,12 @@ const teamProfiles = [
     name: 'Ridwan Ramadhan',
     role: 'Executive Producer / Editor / Colorist',
     photo: 'assets/team/ridwan-ramadhan.jpg',
+    frames: [
+      'assets/team/ridwan-ramadhan.jpg',
+      'assets/team/ridwan-ramadhan-2.jpg',
+      'assets/team/ridwan-ramadhan-3.jpg',
+      'assets/team/ridwan-ramadhan-4.jpg',
+    ],
     bio: 'Dengan pengalaman lebih dari 9 tahun di industri kreatif, Ridwan menggeluti direction, art direction, graphic design, photography, color grading, editing, 3D, dan motion design untuk storytelling yang kuat.',
     highlights: ['Artotel Indonesia - Like a Local Campaign (2025)', 'Arga Bumi Indonesia Company Profile (2026)', 'Inspektorat Jenderal Kementerian ESDM Company Profile (2024)'],
   },
@@ -169,6 +223,12 @@ const teamProfiles = [
     name: 'Wisq Asmoro',
     role: 'Cinematographer & Photographer (LSP Certified)',
     photo: 'assets/team/wisq-asmoro.jpg',
+    frames: [
+      'assets/team/wisq-asmoro.jpg',
+      'assets/team/wisq-asmoro-2.jpg',
+      'assets/team/wisq-asmoro-3.jpg',
+      'assets/team/wisq-asmoro-4.jpg',
+    ],
     bio: 'Cinematographer dan photographer tersertifikasi LSP dengan pengalaman lebih dari 10 tahun di company profile, TV commercial, branded content, dan film, menggabungkan visual storytelling dan strategi komunikasi.',
     highlights: ['Company Profile Production', 'TV Commercial Production', 'Branded Content & Film'],
   },
@@ -220,7 +280,93 @@ const renderTeamGrid = () => {
   }
 };
 
+const initTeamPhotoSlides = () => {
+  if (!teamGrid) {
+    return;
+  }
+
+  const cards = Array.from(teamGrid.querySelectorAll('.team-card'));
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const activeGroups = [];
+
+  cards.forEach((card, index) => {
+    const profile = teamProfiles[index];
+    const portrait = card.querySelector('.team-card-portrait');
+    const staticPhoto = portrait?.querySelector('img');
+    const frames = profile?.frames || (staticPhoto?.src ? [staticPhoto.src] : []);
+
+    if (!portrait || frames.length <= 1) {
+      return;
+    }
+
+    const slides = document.createElement('div');
+    slides.className = 'team-card-slides';
+
+    frames.forEach((src, frameIndex) => {
+      const frame = document.createElement('img');
+      frame.className = `team-card-photo${frameIndex === 0 ? ' is-active' : ''}`;
+      frame.src = src;
+      frame.alt = `${profile.name} photo ${frameIndex + 1}`;
+      frame.loading = frameIndex === 0 ? 'eager' : 'lazy';
+      frame.decoding = 'async';
+      slides.appendChild(frame);
+    });
+
+    portrait.insertBefore(slides, staticPhoto || portrait.firstChild);
+    staticPhoto?.remove();
+    card.dataset.slideIndex = '0';
+    activeGroups.push({ card, frames: slides.querySelectorAll('.team-card-photo') });
+  });
+
+  if (reduceMotion || activeGroups.length === 0) {
+    return;
+  }
+
+  let timer = null;
+
+  const advanceSlides = () => {
+    activeGroups.forEach(({ card, frames }) => {
+      const currentIndex = Number(card.dataset.slideIndex || '0');
+      const nextIndex = (currentIndex + 1) % frames.length;
+
+      frames[currentIndex]?.classList.remove('is-active');
+      frames[nextIndex]?.classList.add('is-active');
+      card.dataset.slideIndex = String(nextIndex);
+    });
+  };
+
+  const startSlides = () => {
+    if (timer || document.hidden) {
+      return;
+    }
+
+    timer = window.setInterval(() => {
+      if (!document.hidden) {
+        advanceSlides();
+      }
+    }, 500);
+  };
+
+  const stopSlides = () => {
+    if (timer) {
+      window.clearInterval(timer);
+      timer = null;
+    }
+  };
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      stopSlides();
+    } else {
+      startSlides();
+    }
+  });
+
+  startSlides();
+};
+
 renderTeamGrid();
+initTeamPhotoSlides();
 
 const videosPerPage = 3;
 

@@ -722,9 +722,7 @@ textarea {
 
 .team-card-portrait {
   position: relative;
-  aspect-ratio: 16 / 13;
-  display: grid;
-  place-items: center;
+  height: clamp(16rem, 22vw, 20.5rem);
   overflow: clip;
   background:
     linear-gradient(180deg, rgba(255, 177, 199, 0.16), rgba(230, 101, 146, 0.06)),
@@ -732,12 +730,40 @@ textarea {
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
+.team-card-slides {
+  position: absolute;
+  inset: 0;
+}
+
+.team-card-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  filter: grayscale(1) contrast(1.02) saturate(0.9);
+  transform: scale(1.02);
+  opacity: 0;
+  transition: opacity 320ms ease, transform 320ms ease;
+}
+
 .team-card-portrait img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center center;
   filter: grayscale(1) contrast(1.02) saturate(0.9);
   transform: scale(1.02);
+}
+
+.team-card-photo.is-active {
+  opacity: 1;
+  transform: scale(1.04);
+}
+
+.team-card-portrait .team-card-photo.is-active {
+  z-index: 1;
 }
 
 .team-card-portrait::after {
@@ -751,7 +777,7 @@ textarea {
   position: absolute;
   left: 0.9rem;
   top: 0.9rem;
-  z-index: 1;
+  z-index: 2;
   display: grid;
   place-items: center;
   min-width: 2.5rem;
@@ -1780,6 +1806,10 @@ textarea {
 
   .team-card {
     grid-template-columns: 1fr;
+  }
+
+  .team-card-portrait {
+    height: 18rem;
   }
 
   .hero-showreel-panel {
