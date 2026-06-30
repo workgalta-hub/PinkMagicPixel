@@ -100,6 +100,8 @@ const portfolioVideos = [
   },
 ];
 
+const videosPerPage = 3;
+
 const toYouTubeEmbedUrl = (videoId, autoplay = false) => {
   const params = new URLSearchParams({
     rel: '0',
@@ -115,103 +117,157 @@ const toYouTubeEmbedUrl = (videoId, autoplay = false) => {
 };
 
 if (showreelGallery) {
-  const stageFrame = showreelGallery.querySelector('[data-stage-frame]');
-  const stageKicker = showreelGallery.querySelector('[data-stage-kicker]');
-  const stageTitle = showreelGallery.querySelector('[data-stage-title]');
-  const stageDescription = showreelGallery.querySelector('[data-stage-description]');
   const prevButton = showreelGallery.querySelector('[data-carousel-prev]');
   const nextButton = showreelGallery.querySelector('[data-carousel-next]');
+  const countLabel = showreelGallery.querySelector('[data-carousel-count]');
   const viewport = showreelGallery.querySelector('[data-carousel-viewport]');
   const track = showreelGallery.querySelector('[data-carousel-track]');
-  let activeIndex = 0;
-
-  const renderStagePreview = (video) => {
-    if (!stageFrame || !stageKicker || !stageTitle || !stageDescription) {
-      return;
-    }
-
-    stageFrame.innerHTML = `
-      <button class="showreel-play" type="button" aria-label="Play ${video.title}">
-        <img src="https://i.ytimg.com/vi/${video.id}/hqdefault.jpg" alt="${video.title} preview" />
-        <span class="showreel-play-badge">
-          <span class="material-symbols-outlined" aria-hidden="true">play_circle</span>
-          <span>Play showreel</span>
-        </span>
-      </button>
-    `;
-
-    stageFrame.querySelector('.showreel-play')?.addEventListener('click', () => {
-      stageFrame.innerHTML = `
-        <iframe
-          src="${toYouTubeEmbedUrl(video.id, true)}"
-          title="${video.title}"
-          loading="lazy"
-          referrerpolicy="strict-origin-when-cross-origin"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen
-        ></iframe>
-      `;
-    });
-
-    stageKicker.textContent = video.kicker;
-    stageTitle.textContent = video.title;
-    stageDescription.textContent = video.description;
-  };
-
-  const selectVideo = (index, scrollIntoView = false) => {
-    activeIndex = index;
-    const video = portfolioVideos[activeIndex];
-
-    track.querySelectorAll('.showreel-card').forEach((card, cardIndex) => {
-      const isActive = cardIndex === activeIndex;
-      card.classList.toggle('is-active', isActive);
-      card.setAttribute('aria-current', isActive ? 'true' : 'false');
-    });
-
-    renderStagePreview(video);
-
-    if (scrollIntoView) {
-      const activeCard = track.querySelector(`[data-video-index="${activeIndex}"]`);
-      activeCard?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-    }
-  };
 
   track.innerHTML = portfolioVideos
     .map(
       (video, index) => `
-        <button class="showreel-card${index === 0 ? ' is-active' : ''}" type="button" data-video-index="${index}" aria-current="${index === 0 ? 'true' : 'false'}">
+        <article class="showreel-card" data-video-index="${index}">
           <div class="showreel-thumb">
             <img src="https://i.ytimg.com/vi/${video.id}/hqdefault.jpg" alt="${video.title} preview" loading="lazy" />
             <span class="showreel-thumb-badge" aria-hidden="true">
               <span class="material-symbols-outlined">play_arrow</span>
             </span>
+            <button class="showreel-play" type="button" aria-label="Play ${video.title}" data-play-video="${index}">
+              <span class="showreel-play-badge">
+                <span class="material-symbols-outlined" aria-hidden="true">play_circle</span>
+                <span>Play</span>
+              </span>
+            </button>
           </div>
           <div class="showreel-card-copy">
             <p class="tag">${video.kicker}</p>
             <h4>${video.title}</h4>
             <p>${video.description}</p>
           </div>
-        </button>
+        </article>
       `,
     )
     .join('');
 
-  track.querySelectorAll('.showreel-card').forEach((card) => {
-    card.addEventListener('click', () => {
-      const index = Number(card.getAttribute('data-video-index'));
-      selectVideo(index, true);
+  const cards = Array.from(track.querySelectorAll('.showreel-card'));
+  let activePage = 0;
+  let activeVideoIndex = 0;
+
+  const totalPages = Math.max(1, Math.ceil(portfolioVideos.length / videosPerPage));
+
+  const updateCountLabel = () => {
+    if (countLabel) {
+      countLabel.textContent = `${activePage + 1} / ${totalPages}`;
+    }
+  };
+
+  const deactivatePlayers = () => {
+    cards.forEach((card, index) => {
+      card.classList.remove('is-playing');
+      card.querySelector('[data-player-frame]')?.remove();
+      card.querySelector('[data-play-video]')?.removeAttribute('hidden');
+      if (index === activeVideoIndex) {
+        card.setAttribute('aria-current', 'true');
+      } else {
+        card.removeAttribute('aria-current');
+      }
     });
-  });
+  };
+
+  const playVideo = (index) => {
+    const card = cards[index];
+    const video = portfolioVideos[index];
+
+    if (!card || !video) {
+      return;
+    }
+
+    activeVideoIndex = index;
+    deactivatePlayers();
+    card.classList.add('is-playing');
+    card.setAttribute('aria-current', 'true');
+
+    const thumb = card.querySelector('.showreel-thumb');
+    const playButton = card.querySelector('[data-play-video]');
+
+    if (!thumb || !playButton) {
+      return;
+    }
+
+    playButton.setAttribute('hidden', '');
+
+    const player = document.createElement('iframe');
+    player.setAttribute('data-player-frame', '');
+    player.src = toYouTubeEmbedUrl(video.id, true);
+    player.title = video.title;
+    player.loading = 'lazy';
+    player.referrerPolicy = 'strict-origin-when-cross-origin';
+    player.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+    player.setAttribute('allowfullscreen', '');
+
+    thumb.appendChild(player);
+  };
+
+  const selectPage = (pageIndex) => {
+    const clampedPage = Math.min(Math.max(pageIndex, 0), totalPages - 1);
+    activePage = clampedPage;
+    const scrollTarget = cards[clampedPage * videosPerPage];
+    scrollTarget?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+    updateCountLabel();
+  };
 
   prevButton?.addEventListener('click', () => {
-    viewport?.scrollBy({ left: -(viewport.clientWidth * 0.88), behavior: 'smooth' });
+    selectPage(activePage - 1);
   });
 
   nextButton?.addEventListener('click', () => {
-    viewport?.scrollBy({ left: viewport.clientWidth * 0.88, behavior: 'smooth' });
+    selectPage(activePage + 1);
   });
 
-  selectVideo(0);
+  cards.forEach((card) => {
+    const index = Number(card.getAttribute('data-video-index'));
+    const playButton = card.querySelector('[data-play-video]');
+
+    playButton?.addEventListener('click', (event) => {
+      event.stopPropagation();
+      playVideo(index);
+    });
+  });
+
+  viewport?.addEventListener('scroll', () => {
+    const firstCard = cards.find((card) => {
+      const rect = card.getBoundingClientRect();
+      const viewportRect = viewport.getBoundingClientRect();
+      return rect.left >= viewportRect.left - rect.width * 0.25;
+    });
+
+    if (!firstCard) {
+      return;
+    }
+
+    const index = Number(firstCard.getAttribute('data-video-index')) || 0;
+    const page = Math.floor(index / videosPerPage);
+    if (page !== activePage) {
+      activePage = page;
+      updateCountLabel();
+    }
+  });
+
+  viewport?.addEventListener('click', (event) => {
+    const card = event.target.closest?.('.showreel-card');
+    if (!card || !viewport.contains(card)) {
+      return;
+    }
+
+    const index = Number(card.getAttribute('data-video-index'));
+    if (!Number.isNaN(index)) {
+      activePage = Math.floor(index / videosPerPage);
+      updateCountLabel();
+    }
+  });
+
+  updateCountLabel();
+  selectPage(0);
 }
 
 document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
