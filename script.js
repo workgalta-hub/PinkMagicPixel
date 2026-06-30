@@ -51,8 +51,6 @@ if ('IntersectionObserver' in window && revealItems.length > 0) {
   revealItems.forEach((item) => item.classList.add('is-visible'));
 }
 
-renderTeamGrid();
-
 const portfolioVideos = [
   {
     url: 'https://youtu.be/VJhKfLaxcsc',
@@ -221,6 +219,8 @@ const renderTeamGrid = () => {
     teamCards.forEach((item) => item.classList.add('is-visible'));
   }
 };
+
+renderTeamGrid();
 
 const videosPerPage = 3;
 
