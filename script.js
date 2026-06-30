@@ -175,7 +175,7 @@ const teamProfiles = [
 ];
 
 const renderTeamGrid = () => {
-  if (!teamGrid) {
+  if (!teamGrid || teamGrid.children.length > 0) {
     return;
   }
 
