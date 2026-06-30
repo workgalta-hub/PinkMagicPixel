@@ -51,49 +51,49 @@ if ('IntersectionObserver' in window && revealItems.length > 0) {
 
 const portfolioVideos = [
   {
-    id: 'VJhKfLaxcsc',
+    url: 'https://youtu.be/VJhKfLaxcsc',
     kicker: 'Cinematic Reel',
     title: 'Midnight Velocity',
     description: 'Preview utama untuk showreel dengan tone sinematik dan ritme editing yang tegas.',
   },
   {
-    id: 'Nmy9LUj0US8',
+    url: 'https://youtu.be/Nmy9LUj0US8',
     kicker: 'Brand Story',
     title: 'TechVision Launch',
     description: 'Cocok untuk company profile atau video campaign dengan presentasi yang modern.',
   },
   {
-    id: 'xduFidLVGxE',
+    url: 'https://youtu.be/xduFidLVGxE',
     kicker: 'Digital Ad',
     title: 'Lumina Motion',
     description: 'Potongan cepat yang menonjolkan visual tajam, fokus detail, dan pacing yang hidup.',
   },
   {
-    id: 'P-lkQrkyeMg',
+    url: 'https://youtu.be/P-lkQrkyeMg',
     kicker: 'Feature Cut',
     title: 'Horizon Feature',
     description: 'Alternatif preview untuk highlight produksi yang terasa premium dan terkurasi.',
   },
   {
-    id: 'FqEqJD54kP8',
+    url: 'https://youtu.be/FqEqJD54kP8',
     kicker: 'Commercial',
     title: 'Pulse Campaign',
     description: 'Format yang ideal untuk iklan digital, teaser, atau materi promosi yang ringkas.',
   },
   {
-    id: 'J3n_h0doqiA',
+    url: 'https://youtu.be/J3n_h0doqiA',
     kicker: 'Behind The Scene',
     title: 'Studio Notes',
     description: 'Preview untuk potongan produksi di balik layar yang memberi konteks proses kreatif.',
   },
   {
-    id: 'rUo6XpRq8uA',
+    url: 'https://youtu.be/rUo6XpRq8uA',
     kicker: 'Company Profile',
     title: 'Corporate Frame',
     description: 'Menampilkan sisi profesional brand melalui framing yang rapi dan percaya diri.',
   },
   {
-    id: 'sHV5y_b3H2o',
+    url: 'https://youtu.be/sHV5y_b3H2o',
     kicker: 'Final Cut',
     title: 'Closing Sequence',
     description: 'Showreel penutup untuk membangun kesan akhir yang kuat dan mudah diingat.',
@@ -101,6 +101,37 @@ const portfolioVideos = [
 ];
 
 const videosPerPage = 3;
+
+const getYouTubeVideoId = (input) => {
+  if (!input) {
+    return '';
+  }
+
+  const value = input.trim();
+
+  try {
+    const url = new URL(value);
+    const host = url.hostname.replace(/^www\./, '');
+
+    if (host === 'youtu.be') {
+      return url.pathname.split('/').filter(Boolean)[0] || '';
+    }
+
+    if (host.endsWith('youtube.com')) {
+      if (url.pathname.startsWith('/embed/') || url.pathname.startsWith('/shorts/')) {
+        return url.pathname.split('/').filter(Boolean).pop() || '';
+      }
+
+      return url.searchParams.get('v') || '';
+    }
+  } catch (error) {
+    if (/^[a-zA-Z0-9_-]{11}$/.test(value)) {
+      return value;
+    }
+  }
+
+  return '';
+};
 
 const toYouTubeEmbedUrl = (videoId, autoplay = false) => {
   const params = new URLSearchParams({
@@ -124,11 +155,13 @@ if (showreelGallery) {
   const track = showreelGallery.querySelector('[data-carousel-track]');
 
   track.innerHTML = portfolioVideos
-    .map(
-      (video, index) => `
+    .map((video, index) => {
+      const videoId = getYouTubeVideoId(video.url);
+
+      return `
         <article class="showreel-card" data-video-index="${index}">
           <div class="showreel-thumb">
-            <img src="https://i.ytimg.com/vi/${video.id}/hqdefault.jpg" alt="${video.title} preview" loading="lazy" />
+            <img src="https://i.ytimg.com/vi/${videoId}/hqdefault.jpg" alt="${video.title} preview" loading="lazy" />
             <span class="showreel-thumb-badge" aria-hidden="true">
               <span class="material-symbols-outlined">play_arrow</span>
             </span>
@@ -145,8 +178,8 @@ if (showreelGallery) {
             <p>${video.description}</p>
           </div>
         </article>
-      `,
-    )
+      `;
+    })
     .join('');
 
   const cards = Array.from(track.querySelectorAll('.showreel-card'));
@@ -177,8 +210,9 @@ if (showreelGallery) {
   const playVideo = (index) => {
     const card = cards[index];
     const video = portfolioVideos[index];
+    const videoId = getYouTubeVideoId(video?.url || '');
 
-    if (!card || !video) {
+    if (!card || !video || !videoId) {
       return;
     }
 
@@ -198,7 +232,7 @@ if (showreelGallery) {
 
     const player = document.createElement('iframe');
     player.setAttribute('data-player-frame', '');
-    player.src = toYouTubeEmbedUrl(video.id, true);
+    player.src = toYouTubeEmbedUrl(videoId, true);
     player.title = video.title;
     player.loading = 'lazy';
     player.referrerPolicy = 'strict-origin-when-cross-origin';
