@@ -98,6 +98,12 @@ const portfolioVideos = [
     title: 'Closing Sequence',
     description: 'Showreel penutup untuk membangun kesan akhir yang kuat dan mudah diingat.',
   },
+  {
+    url: 'https://youtu.be/f-zIT2nk3-U',
+    kicker: 'Motion Reel',
+    title: 'Velocity Pulse',
+    description: 'Tambahan showreel untuk memperkaya kumpulan portfolio dengan nuansa motion yang dinamis.',
+  },
 ];
 
 const videosPerPage = 3;
