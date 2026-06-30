@@ -6,6 +6,7 @@ const mobileLinks = mobileMenu ? mobileMenu.querySelectorAll('a') : [];
 const yearEl = document.querySelector('#year');
 const revealItems = document.querySelectorAll('.reveal');
 const showreelGallery = document.querySelector('[data-showreel-gallery]');
+const teamGrid = document.querySelector('[data-team-grid]');
 const heroShowreel = document.querySelector('[data-hero-showreel]');
 
 if (yearEl) {
@@ -49,6 +50,8 @@ if ('IntersectionObserver' in window && revealItems.length > 0) {
 } else {
   revealItems.forEach((item) => item.classList.add('is-visible'));
 }
+
+renderTeamGrid();
 
 const portfolioVideos = [
   {
@@ -106,6 +109,118 @@ const portfolioVideos = [
     description: 'Tambahan showreel untuk memperkaya kumpulan portfolio dengan nuansa motion yang dinamis.',
   },
 ];
+
+const teamProfiles = [
+  {
+    name: 'Alvian Husin',
+    role: 'Videographer / Photographer / Editor',
+    photo: 'assets/team/alvian-husin.jpg',
+    bio: 'Lebih dari satu dekade di industri kreatif. Memulai fotografi dan editing gambar sejak 2014, lalu mengembangkan videografi dan editing video sejak 2017 untuk menangani proyek visual berskala besar.',
+    highlights: ['Video Profile Lampung Barat (2023)', 'Subroto Awards 2025 Pertamina Geotermal Energy', 'The Guardian "Lampung Dive Club Mini Series" (2020)'],
+  },
+  {
+    name: 'Arso Wibowo',
+    role: 'Cinematographer / Director of Photography',
+    photo: 'assets/team/arso-wibowo.jpg',
+    bio: 'Sejak 2018 merayakan setiap momen di dunia sinematografi. Fokus pada pengambilan gambar dan editing untuk menerjemahkan ide kreatif menjadi visual yang artistik dan efektif.',
+    highlights: ['BPKH Company Profile (2024)', 'Beeme Short Movie (2023)', 'Artotel Indonesia "Like a Local" Campaign (2026)'],
+  },
+  {
+    name: 'Eriko Ramadhan',
+    role: 'Director',
+    photo: 'assets/team/eriko-ramadhan.jpg',
+    bio: 'Berfokus pada penyutradaraan dan penulisan karya audiovisual untuk company profile, campaign commercials, film, dan music video dengan pengalaman lebih dari 7 tahun.',
+    highlights: ['Nescafe x Raisa Digital Ads - Assistant to Director (2026)', 'Batas Senja "Ketakutanku" Music Video (2026)', 'Poltekkes Tanjung Karang Profile Video (2023)'],
+  },
+  {
+    name: 'Fariz Gunsan',
+    role: 'Production Team / Camera Department / Photographer',
+    photo: 'assets/team/fariz-gunsan.jpg',
+    bio: 'Production team, camera department team, dan photographer dengan 7 tahun pengalaman di industri kreatif, berfokus pada production, photography, camera assisting, lighting, dan visual storytelling.',
+    highlights: ['Poltekkes Kemenkes Tanjung Karang Company Profile (2024)', 'Wahaha Seafood Company Profile (2025)', 'Tubaba Art Festival Documentation (2024)'],
+  },
+  {
+    name: 'Ismi Anindita',
+    role: 'Creative Producer',
+    photo: 'assets/team/ismi-anindita.jpg',
+    bio: 'Produser kreatif dengan pengalaman di industri film dan production house. Terbiasa mengelola workflow produksi end-to-end dari perencanaan, budgeting, scheduling, hingga quality control.',
+    highlights: ['Batas Senja "Ketakutanku" Music Video (2026)', 'Wahaha Seafood Profile Video (2025)', 'Seruit Buk Lin Profile Video (2025)'],
+  },
+  {
+    name: 'Rachmat SB',
+    role: 'FPV Pilot / Drone Aerial Pilot',
+    photo: 'assets/team/rachmat-sb.jpg',
+    bio: 'Pilot FPV dan aerial drone dengan lebih dari 5 tahun pengalaman. Berfokus pada estetika dan penyampaian pesan visual melalui sudut pandang yang luas.',
+    highlights: ['PTBA Lampung CSR Video (2026)', 'Indonesian Drift Series Competition (2026)', 'HK Tol Bakter Company Profile (2024)'],
+  },
+  {
+    name: 'Raden Tri Buana',
+    role: 'Videographer / Photographer / Editor / Motion Designer',
+    photo: 'assets/team/raden-tri-buana.jpg',
+    bio: 'Sejak 2019 menekuni videography, editing video, dan motion design. Pada 2022 menambah skill photography dan terus mengembangkan disiplin kerja untuk berbagai proyek visual.',
+    highlights: ['Profile Putri Indonesia Lampung (2026)', 'Tol Bakter Hutama Karya Company Profile (2024)', 'Video Content MarketU (Agency USA) (2026)'],
+  },
+  {
+    name: 'Ridwan Ramadhan',
+    role: 'Executive Producer / Editor / Colorist',
+    photo: 'assets/team/ridwan-ramadhan.jpg',
+    bio: 'Dengan pengalaman lebih dari 9 tahun di industri kreatif, Ridwan menggeluti direction, art direction, graphic design, photography, color grading, editing, 3D, dan motion design untuk storytelling yang kuat.',
+    highlights: ['Artotel Indonesia - Like a Local Campaign (2025)', 'Arga Bumi Indonesia Company Profile (2026)', 'Inspektorat Jenderal Kementerian ESDM Company Profile (2024)'],
+  },
+  {
+    name: 'Wisq Asmoro',
+    role: 'Cinematographer & Photographer (LSP Certified)',
+    photo: 'assets/team/wisq-asmoro.jpg',
+    bio: 'Cinematographer dan photographer tersertifikasi LSP dengan pengalaman lebih dari 10 tahun di company profile, TV commercial, branded content, dan film, menggabungkan visual storytelling dan strategi komunikasi.',
+    highlights: ['Company Profile Production', 'TV Commercial Production', 'Branded Content & Film'],
+  },
+];
+
+const renderTeamGrid = () => {
+  if (!teamGrid) {
+    return;
+  }
+
+  teamGrid.innerHTML = teamProfiles
+    .map(
+      (profile, index) => `
+        <article class="team-card reveal">
+          <div class="team-card-portrait">
+            <img src="${profile.photo}" alt="${profile.name} portrait" loading="lazy" />
+            <span class="team-card-index">${String(index + 1).padStart(2, '0')}</span>
+          </div>
+          <div class="team-card-body">
+            <p class="tag">${profile.role}</p>
+            <h3>${profile.name}</h3>
+            <p>${profile.bio}</p>
+            <ul class="team-points">
+              ${profile.highlights.map((item) => `<li>${item}</li>`).join('')}
+            </ul>
+          </div>
+        </article>
+      `,
+    )
+    .join('');
+
+  const teamCards = teamGrid.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window && teamCards.length > 0) {
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            obs.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: '0px 0px -8% 0px' },
+    );
+
+    teamCards.forEach((item) => observer.observe(item));
+  } else {
+    teamCards.forEach((item) => item.classList.add('is-visible'));
+  }
+};
 
 const videosPerPage = 3;
 

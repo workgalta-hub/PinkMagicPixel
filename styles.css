@@ -702,67 +702,92 @@ textarea {
 
 .team-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1.15rem;
 }
 
 .team-card {
   display: grid;
-  grid-template-columns: minmax(84px, 120px) minmax(0, 1fr);
-  gap: 1rem;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
   align-items: start;
-  padding: 1.1rem;
+  padding: 0;
   border-radius: 1.4rem;
   background:
     radial-gradient(circle at 100% 0%, rgba(255, 177, 199, 0.12), transparent 28%),
     rgba(32, 31, 31, 0.88);
   border: 1px solid rgba(255, 255, 255, 0.06);
+  overflow: clip;
 }
 
 .team-card-portrait {
   position: relative;
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 16 / 13;
   display: grid;
   place-items: center;
   overflow: clip;
-  border-radius: 1rem;
   background:
     linear-gradient(180deg, rgba(255, 177, 199, 0.16), rgba(230, 101, 146, 0.06)),
     linear-gradient(180deg, #241f23, #151214);
-  border: 1px solid rgba(255, 177, 199, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-.team-avatar {
+.team-card-portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.02) saturate(0.9);
+  transform: scale(1.02);
+}
+
+.team-card-portrait::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(17, 15, 16, 0.02), rgba(17, 15, 16, 0.24));
+}
+
+.team-card-index {
+  position: absolute;
+  left: 0.9rem;
+  top: 0.9rem;
+  z-index: 1;
   display: grid;
   place-items: center;
-  width: 4.6rem;
-  height: 4.6rem;
+  min-width: 2.5rem;
+  min-height: 2.5rem;
+  padding: 0.3rem 0.55rem;
   border-radius: 50%;
   color: #f6edf0;
   font-family: "JetBrains Mono", monospace;
-  font-size: 1.4rem;
-  letter-spacing: 0.12em;
-  background: rgba(255, 255, 255, 0.08);
+  font-size: 0.82rem;
+  letter-spacing: 0.14em;
+  background: rgba(14, 13, 14, 0.56);
   border: 1px solid rgba(255, 177, 199, 0.18);
+  backdrop-filter: blur(8px);
 }
 
 .team-card-body {
+  display: grid;
+  gap: 0.85rem;
+  padding: 1.05rem 1.05rem 1.15rem;
   min-width: 0;
 }
 
 .team-card-body h3 {
-  margin: 0.2rem 0 0;
+  margin: 0;
   color: #f8f4f5;
   font-family: "Manrope", sans-serif;
-  font-size: 1.5rem;
+  font-size: 1.35rem;
   line-height: 1.05;
   letter-spacing: -0.03em;
 }
 
 .team-card-body p {
-  margin: 0.75rem 0 0;
+  margin: 0;
   color: rgba(230, 225, 225, 0.76);
-  line-height: 1.7;
+  line-height: 1.65;
+  font-size: 0.95rem;
 }
 
 .team-points {
@@ -770,7 +795,7 @@ textarea {
   flex-wrap: wrap;
   gap: 0.5rem;
   padding: 0;
-  margin: 1rem 0 0;
+  margin: 0;
   list-style: none;
 }
 
