@@ -172,6 +172,8 @@ if (showreelGallery) {
   let activePlayer = null;
   let isPaused = false;
   let lastFocusEl = null;
+  let slideTimer = null;
+  const autoSlideDelay = 7000;
 
   const updateCountLabel = () => {
     if (countLabel) {
@@ -232,6 +234,7 @@ if (showreelGallery) {
     activePlayer = modalFrame.querySelector('iframe');
     isPaused = false;
     setPauseButtonState();
+    stopAutoSlide();
     window.setTimeout(() => modalPause?.focus(), 0);
   };
 
@@ -242,6 +245,27 @@ if (showreelGallery) {
     scrollTarget?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
     updateCountLabel();
     updateCardStates();
+  };
+
+  const stopAutoSlide = () => {
+    if (slideTimer) {
+      window.clearInterval(slideTimer);
+      slideTimer = null;
+    }
+  };
+
+  const startAutoSlide = () => {
+    if (totalPages <= 1 || slideTimer || !modal?.hidden) {
+      return;
+    }
+
+    slideTimer = window.setInterval(() => {
+      if (!modal?.hidden) {
+        return;
+      }
+
+      selectPage((activePage + 1) % totalPages);
+    }, autoSlideDelay);
   };
 
   prevButton?.addEventListener('click', () => {
@@ -298,6 +322,7 @@ if (showreelGallery) {
     activePlayer = null;
     isPaused = false;
     setPauseButtonState();
+    startAutoSlide();
     lastFocusEl?.focus?.();
   };
 
@@ -323,6 +348,9 @@ if (showreelGallery) {
 
   modalPause?.addEventListener('click', togglePause);
 
+  showreelGallery.addEventListener('mouseenter', stopAutoSlide);
+  showreelGallery.addEventListener('mouseleave', startAutoSlide);
+
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && !modal?.hidden) {
       closeModal();
@@ -332,6 +360,7 @@ if (showreelGallery) {
   updateCountLabel();
   updateCardStates();
   selectPage(0);
+  startAutoSlide();
 }
 
 document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
