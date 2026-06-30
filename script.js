@@ -407,6 +407,7 @@ const toYouTubeEmbedUrl = (videoId, autoplay = false) => {
     modestbranding: '1',
     playsinline: '1',
     enablejsapi: '1',
+    controls: '1',
   });
 
   if (autoplay) {
@@ -529,17 +530,20 @@ if (showreelGallery) {
   };
 
   const postPlayerCommand = (command) => {
-    if (!activePlayer) {
+    const frameWindow = activePlayer?.contentWindow;
+
+    if (!frameWindow) {
       return;
     }
 
-    if (command === 'pauseVideo') {
-      activePlayer.pauseVideo();
-    }
-
-    if (command === 'playVideo') {
-      activePlayer.playVideo();
-    }
+    frameWindow.postMessage(
+      JSON.stringify({
+        event: 'command',
+        func: command,
+        args: [],
+      }),
+      '*',
+    );
   };
 
   const setPauseButtonState = () => {
@@ -591,43 +595,25 @@ if (showreelGallery) {
     stopAutoSlide();
     window.setTimeout(() => modalPause?.focus(), 0);
 
-    const YT = await loadYouTubeIframeApi();
-
-    if (openToken !== modalOpenToken || modal.hidden) {
-      return;
-    }
-
     modalFrame.innerHTML = '';
-    activePlayer = new YT.Player(modalFrame, {
-      height: '100%',
-      width: '100%',
-      videoId,
-      playerVars: {
-        autoplay: 1,
-        rel: 0,
-        modestbranding: 1,
-        playsinline: 1,
-        origin: window.location.origin,
-      },
-      events: {
-        onReady: (event) => {
-          event.target.playVideo();
-          isPaused = false;
-          setPauseButtonState();
-        },
-        onStateChange: (event) => {
-          if (event.data === YT.PlayerState.PLAYING) {
-            isPaused = false;
-            setPauseButtonState();
-          }
+    const iframe = document.createElement('iframe');
+    iframe.src = toYouTubeEmbedUrl(videoId, true);
+    iframe.title = `${video.title} player`;
+    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+    iframe.loading = 'eager';
+    iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+    iframe.setAttribute('allowfullscreen', '');
+    iframe.addEventListener('load', () => {
+      if (openToken !== modalOpenToken || modal.hidden) {
+        return;
+      }
 
-          if (event.data === YT.PlayerState.PAUSED) {
-            isPaused = true;
-            setPauseButtonState();
-          }
-        },
-      },
+      isPaused = false;
+      setPauseButtonState();
     });
+
+    modalFrame.appendChild(iframe);
+    activePlayer = iframe;
   };
 
   window.showreelOpenModal = openModal;
@@ -706,8 +692,7 @@ if (showreelGallery) {
     }
 
     modalOpenToken += 1;
-    activePlayer?.pauseVideo?.();
-    activePlayer?.destroy?.();
+    postPlayerCommand('pauseVideo');
 
     modal.hidden = true;
     modal.setAttribute('aria-hidden', 'true');
