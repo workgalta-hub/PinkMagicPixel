@@ -215,6 +215,45 @@ if (showreelGallery) {
   let slideTimer = null;
   const autoSlideDelay = 7000;
 
+  const syncCardContent = () => {
+    cards.forEach((card, index) => {
+      const video = portfolioVideos[index];
+      if (!video) {
+        return;
+      }
+
+      const thumbnail = card.querySelector('.showreel-thumb img');
+      const kicker = card.querySelector('.showreel-card-copy .tag');
+      const title = card.querySelector('.showreel-card-copy h4');
+      const description = card.querySelector('.showreel-card-copy p:not(.tag)');
+      const playButton = card.querySelector('[data-play-video]');
+
+      card.setAttribute('data-video-url', video.url);
+      card.setAttribute('data-video-index', String(index));
+
+      if (thumbnail) {
+        thumbnail.src = `https://i.ytimg.com/vi/${getYouTubeVideoId(video.url)}/hqdefault.jpg`;
+        thumbnail.alt = `${video.title} preview`;
+      }
+
+      if (kicker) {
+        kicker.textContent = video.kicker;
+      }
+
+      if (title) {
+        title.textContent = video.title;
+      }
+
+      if (description) {
+        description.textContent = video.description;
+      }
+
+      if (playButton) {
+        playButton.setAttribute('aria-label', `Perbesar ${video.title}`);
+      }
+    });
+  };
+
   const updateCountLabel = () => {
     if (countLabel) {
       countLabel.textContent = `${activePage + 1} / ${totalPages}`;
@@ -450,6 +489,7 @@ if (showreelGallery) {
 
   updateCountLabel();
   updateCardStates();
+  syncCardContent();
   selectPage(0);
   startAutoSlide();
 }
