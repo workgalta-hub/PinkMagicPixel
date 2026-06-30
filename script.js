@@ -138,10 +138,16 @@ const toYouTubeEmbedUrl = (videoId, autoplay = false) => {
     rel: '0',
     modestbranding: '1',
     playsinline: '1',
+    enablejsapi: '1',
   });
 
   if (autoplay) {
     params.set('autoplay', '1');
+    params.set('mute', '1');
+  }
+
+  if (window.location.protocol.startsWith('http')) {
+    params.set('origin', window.location.origin);
   }
 
   return `https://www.youtube-nocookie.com/embed/${videoId}?${params.toString()}`;
@@ -153,40 +159,19 @@ if (showreelGallery) {
   const countLabel = showreelGallery.querySelector('[data-carousel-count]');
   const viewport = showreelGallery.querySelector('[data-carousel-viewport]');
   const track = showreelGallery.querySelector('[data-carousel-track]');
-
-  track.innerHTML = portfolioVideos
-    .map((video, index) => {
-      const videoId = getYouTubeVideoId(video.url);
-
-      return `
-        <article class="showreel-card" data-video-index="${index}">
-          <div class="showreel-thumb">
-            <img src="https://i.ytimg.com/vi/${videoId}/hqdefault.jpg" alt="${video.title} preview" loading="lazy" />
-            <span class="showreel-thumb-badge" aria-hidden="true">
-              <span class="material-symbols-outlined">play_arrow</span>
-            </span>
-            <button class="showreel-play" type="button" aria-label="Play ${video.title}" data-play-video="${index}">
-              <span class="showreel-play-badge">
-                <span class="material-symbols-outlined" aria-hidden="true">play_circle</span>
-                <span>Play</span>
-              </span>
-            </button>
-          </div>
-          <div class="showreel-card-copy">
-            <p class="tag">${video.kicker}</p>
-            <h4>${video.title}</h4>
-            <p>${video.description}</p>
-          </div>
-        </article>
-      `;
-    })
-    .join('');
-
-  const cards = Array.from(track.querySelectorAll('.showreel-card'));
+  const modal = document.querySelector('[data-showreel-modal]');
+  const modalFrame = modal?.querySelector('[data-modal-frame]');
+  const modalTitle = modal?.querySelector('[data-modal-title]');
+  const modalKicker = modal?.querySelector('[data-modal-kicker]');
+  const modalPause = modal?.querySelector('[data-modal-toggle-pause]');
+  const modalCloseButtons = modal ? modal.querySelectorAll('[data-modal-close]') : [];
+  const cards = Array.from(track?.querySelectorAll('.showreel-card') || []);
+  const totalPages = Math.max(1, Math.ceil(cards.length / videosPerPage));
   let activePage = 0;
   let activeVideoIndex = 0;
-
-  const totalPages = Math.max(1, Math.ceil(portfolioVideos.length / videosPerPage));
+  let activePlayer = null;
+  let isPaused = false;
+  let lastFocusEl = null;
 
   const updateCountLabel = () => {
     if (countLabel) {
@@ -194,52 +179,60 @@ if (showreelGallery) {
     }
   };
 
-  const deactivatePlayers = () => {
+  const updateCardStates = () => {
     cards.forEach((card, index) => {
-      card.classList.remove('is-playing');
-      card.querySelector('[data-player-frame]')?.remove();
-      card.querySelector('[data-play-video]')?.removeAttribute('hidden');
-      if (index === activeVideoIndex) {
-        card.setAttribute('aria-current', 'true');
-      } else {
-        card.removeAttribute('aria-current');
-      }
+      card.classList.toggle('is-active', Math.floor(index / videosPerPage) === activePage);
     });
   };
 
-  const playVideo = (index) => {
-    const card = cards[index];
+  const postPlayerCommand = (command) => {
+    activePlayer?.contentWindow?.postMessage(JSON.stringify({
+      event: 'command',
+      func: command,
+      args: '',
+    }), '*');
+  };
+
+  const setPauseButtonState = () => {
+    if (!modalPause) {
+      return;
+    }
+
+    modalPause.innerHTML = isPaused
+      ? '<span class="material-symbols-outlined" aria-hidden="true">play_arrow</span>'
+      : '<span class="material-symbols-outlined" aria-hidden="true">pause</span>';
+    modalPause.setAttribute('aria-label', isPaused ? 'Resume video' : 'Pause video');
+  };
+
+  const openModal = (index) => {
     const video = portfolioVideos[index];
     const videoId = getYouTubeVideoId(video?.url || '');
 
-    if (!card || !video || !videoId) {
+    if (!videoId || !modal || !modalFrame || !modalTitle || !modalKicker) {
       return;
     }
 
     activeVideoIndex = index;
-    deactivatePlayers();
-    card.classList.add('is-playing');
-    card.setAttribute('aria-current', 'true');
-
-    const thumb = card.querySelector('.showreel-thumb');
-    const playButton = card.querySelector('[data-play-video]');
-
-    if (!thumb || !playButton) {
-      return;
-    }
-
-    playButton.setAttribute('hidden', '');
-
-    const player = document.createElement('iframe');
-    player.setAttribute('data-player-frame', '');
-    player.src = toYouTubeEmbedUrl(videoId, true);
-    player.title = video.title;
-    player.loading = 'lazy';
-    player.referrerPolicy = 'strict-origin-when-cross-origin';
-    player.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
-    player.setAttribute('allowfullscreen', '');
-
-    thumb.appendChild(player);
+    lastFocusEl = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    modal.hidden = false;
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('showreel-modal-open');
+    modalKicker.textContent = video.kicker;
+    modalTitle.textContent = video.title;
+    modalFrame.innerHTML = `
+      <iframe
+        src="${toYouTubeEmbedUrl(videoId, true)}"
+        title="${video.title}"
+        loading="lazy"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+      ></iframe>
+    `;
+    activePlayer = modalFrame.querySelector('iframe');
+    isPaused = false;
+    setPauseButtonState();
+    window.setTimeout(() => modalPause?.focus(), 0);
   };
 
   const selectPage = (pageIndex) => {
@@ -248,6 +241,7 @@ if (showreelGallery) {
     const scrollTarget = cards[clampedPage * videosPerPage];
     scrollTarget?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
     updateCountLabel();
+    updateCardStates();
   };
 
   prevButton?.addEventListener('click', () => {
@@ -264,43 +258,79 @@ if (showreelGallery) {
 
     playButton?.addEventListener('click', (event) => {
       event.stopPropagation();
-      playVideo(index);
+      openModal(index);
+    });
+
+    card.addEventListener('click', () => {
+      openModal(index);
     });
   });
 
   viewport?.addEventListener('scroll', () => {
-    const firstCard = cards.find((card) => {
-      const rect = card.getBoundingClientRect();
-      const viewportRect = viewport.getBoundingClientRect();
-      return rect.left >= viewportRect.left - rect.width * 0.25;
-    });
-
-    if (!firstCard) {
+    if (!viewport) {
       return;
     }
 
-    const index = Number(firstCard.getAttribute('data-video-index')) || 0;
+    const viewportRect = viewport.getBoundingClientRect();
+    const firstVisibleCard = cards.find((card) => card.getBoundingClientRect().right > viewportRect.left + 32) || cards[0];
+    const index = Number(firstVisibleCard?.getAttribute('data-video-index')) || 0;
     const page = Math.floor(index / videosPerPage);
     if (page !== activePage) {
       activePage = page;
       updateCountLabel();
+      updateCardStates();
     }
   });
 
-  viewport?.addEventListener('click', (event) => {
-    const card = event.target.closest?.('.showreel-card');
-    if (!card || !viewport.contains(card)) {
+  const closeModal = () => {
+    if (!modal) {
       return;
     }
 
-    const index = Number(card.getAttribute('data-video-index'));
-    if (!Number.isNaN(index)) {
-      activePage = Math.floor(index / videosPerPage);
-      updateCountLabel();
+    if (activePlayer) {
+      postPlayerCommand('pauseVideo');
+    }
+
+    modal.hidden = true;
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('showreel-modal-open');
+    modalFrame && (modalFrame.innerHTML = '');
+    activePlayer = null;
+    isPaused = false;
+    setPauseButtonState();
+    lastFocusEl?.focus?.();
+  };
+
+  const togglePause = () => {
+    if (!activePlayer) {
+      return;
+    }
+
+    if (isPaused) {
+      postPlayerCommand('playVideo');
+      isPaused = false;
+    } else {
+      postPlayerCommand('pauseVideo');
+      isPaused = true;
+    }
+
+    setPauseButtonState();
+  };
+
+  modalCloseButtons.forEach((button) => {
+    button.addEventListener('click', closeModal);
+  });
+
+  modalPause?.addEventListener('click', togglePause);
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && !modal?.hidden) {
+      closeModal();
     }
   });
 
   updateCountLabel();
+  updateCardStates();
   selectPage(0);
 }
 
