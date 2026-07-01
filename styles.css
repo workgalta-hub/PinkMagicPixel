@@ -252,6 +252,12 @@ textarea {
   padding: 3rem 0 4rem;
 }
 
+.hero-layout-center {
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  text-align: center;
+}
+
 .reveal {
   transition: opacity 700ms ease, transform 700ms ease;
 }
@@ -302,6 +308,10 @@ textarea {
   max-width: 10ch;
 }
 
+.hero-layout-center .hero-copy h1 {
+  margin-inline: auto;
+}
+
 .hero-accent {
   display: inline-block;
   color: var(--pink);
@@ -317,12 +327,20 @@ textarea {
   line-height: 1.8;
 }
 
+.hero-layout-center .hero-intro {
+  margin-inline: auto;
+}
+
 .hero-actions,
 .contact-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 0.9rem;
   margin-top: 1.9rem;
+}
+
+.hero-layout-center .hero-actions {
+  justify-content: center;
 }
 
 .button {
