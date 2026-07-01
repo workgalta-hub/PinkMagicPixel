@@ -344,7 +344,7 @@ const initTeamPhotoSlides = () => {
       if (!document.hidden) {
         advanceSlides();
       }
-    }, 500);
+    }, 2000);
   };
 
   const stopSlides = () => {
