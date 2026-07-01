@@ -122,9 +122,9 @@ textarea {
 }
 
 .header-shell {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
-  justify-content: space-between;
   min-height: 4.75rem;
   gap: 1rem;
 }
@@ -136,6 +136,7 @@ textarea {
   font-family: "Manrope", sans-serif;
   font-weight: 800;
   letter-spacing: -0.03em;
+  justify-self: start;
 }
 
 .brand-mark {
@@ -155,6 +156,9 @@ textarea {
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: rgba(230, 225, 225, 0.72);
+  justify-self: center;
+  justify-content: center;
+  width: max-content;
 }
 
 .site-nav a:not(.button):hover,
@@ -178,6 +182,7 @@ textarea {
   color: var(--text);
   padding: 0;
   cursor: pointer;
+  justify-self: end;
 }
 
 .menu-toggle span {
